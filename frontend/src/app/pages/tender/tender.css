@@ -45,21 +45,6 @@
   background: #0052a3;
 }
 
-.refresh-btn {
-  background: #6c757d;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.refresh-btn:hover {
-  background: #5a6268;
-}
 
 .loading {
   text-align: center;

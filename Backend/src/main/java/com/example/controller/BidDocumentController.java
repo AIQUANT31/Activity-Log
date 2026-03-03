@@ -389,10 +389,7 @@ public class BidDocumentController {
         return allPaths;
     }
 
-    /**
-     * Upload multiple files and convert them to ZIP format
-     * This endpoint allows bidders to upload their documents and get them converted to a ZIP file
-     */
+   
     @PostMapping(value = "/upload-as-zip", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Map<String, Object>> uploadFilesAsZip(
             @RequestParam("files") MultipartFile[] files,
@@ -409,7 +406,6 @@ public class BidDocumentController {
             return ResponseEntity.badRequest().body(response);
         }
         
-        // Validate all files are PDFs
         for (MultipartFile file : files) {
             if (file != null && !file.isEmpty()) {
                 if (!isValidPdfFile(file, 50 * 1024 * 1024)) {
@@ -426,16 +422,15 @@ public class BidDocumentController {
             Map<String, Object> zipResult = zipFileService.createZipFromFiles(files, actualPrefix);
             
             if ((Boolean) zipResult.get("success")) {
-                // If bidId is provided, also save individual files and link to bid
+               
                 if (bidId != null) {
                     Bid bid = bidService.getBidById(bidId);
                     if (bid != null) {
                         List<String> savedDocPaths = new ArrayList<>();
                         
-                        // Also save individual files for reference
                         for (MultipartFile f : files) {
                             if (f != null && !f.isEmpty()) {
-                                // Use validateAndSaveFile to eliminate duplicate validation and saving code
+                                
                                 String docPath = validateAndSaveFile(f, bidId);
                                 if (docPath != null) {
                                     savedDocPaths.add(docPath);
@@ -478,9 +473,7 @@ public class BidDocumentController {
         }
     }
 
-    /**
-     * Create ZIP from existing bid documents
-     */
+    
     @PostMapping("/create-zip/{bidId}")
     public ResponseEntity<Map<String, Object>> createZipFromExistingDocuments(
             @PathVariable Long bidId) {
@@ -522,9 +515,7 @@ public class BidDocumentController {
         }
     }
 
-    /**
-     * Download ZIP file
-     */
+//    download zip file 
     @GetMapping("/download-zip")
     public ResponseEntity<Resource> downloadZip(
             @RequestParam("fileName") String fileName) {

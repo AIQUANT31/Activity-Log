@@ -28,9 +28,7 @@
       </div>
     </div>
 
-    <!-- Document Statistics (Score hidden - only show validated document names) -->
-
-    <!-- Document Statistics -->
+   
     <div class="stats-section">
       <div class="stat-card found">
         <div class="stat-icon"></div>
@@ -47,7 +45,7 @@
         </div>
       </div>
       <div class="stat-card duplicate">
-        <div class="stat-icon">📋</div>
+        <div class="stat-icon"></div>
         <div class="stat-info">
           <div class="stat-value">{{ report.totalDocumentsDuplicate }}</div>
           <div class="stat-label">Duplicate Documents</div>
@@ -62,7 +60,7 @@
       </div>
     </div>
 
-    <!-- All Documents Combined in One List -->
+ 
     <div class="documents-section" *ngIf="getAllReportDocuments().length > 0">
       <h3>Documents ({{ getAllReportDocuments().length }})</h3>
       <ul class="document-list">

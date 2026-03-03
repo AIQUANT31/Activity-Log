@@ -29,9 +29,7 @@ public class ActivityLogController {
     @Autowired
     private SummaryReportService summaryReportService;
     
-    /**
-     * Log a manual change
-     */
+    
     @PostMapping("/log")
     public ResponseEntity<Map<String, Object>> logActivity(
             @RequestParam String username,
@@ -61,9 +59,7 @@ public class ActivityLogController {
         }
     }
     
-    /**
-     * Log manual document validation override
-     */
+   
     @PostMapping("/document-override")
     public ResponseEntity<Map<String, Object>> logDocumentOverride(
             @RequestParam String username,
@@ -91,9 +87,7 @@ public class ActivityLogController {
         }
     }
     
-    /**
-     * Log manual document acceptance
-     */
+   
     @PostMapping("/document-accept")
     public ResponseEntity<Map<String, Object>> logDocumentAcceptance(
             @RequestParam String username,
@@ -120,9 +114,7 @@ public class ActivityLogController {
         }
     }
     
-    /**
-     * Log manual document rejection
-     */
+    
     @PostMapping("/document-reject")
     public ResponseEntity<Map<String, Object>> logDocumentRejection(
             @RequestParam String username,
@@ -149,9 +141,7 @@ public class ActivityLogController {
         }
     }
     
-    /**
-     * Get activity logs for a user
-     */
+    
     @GetMapping("/user/{username}")
     public ResponseEntity<Map<String, Object>> getUserActivityLogs(
             @PathVariable String username,
@@ -178,9 +168,7 @@ public class ActivityLogController {
         }
     }
     
-    /**
-     * Get activity logs for a specific entity
-     */
+    
     @GetMapping("/entity/{entityType}/{entityId}")
     public ResponseEntity<Map<String, Object>> getEntityActivityLogs(
             @PathVariable String entityType,
@@ -204,9 +192,7 @@ public class ActivityLogController {
         }
     }
     
-    /**
-     * Get recent activity logs
-     */
+    
     @GetMapping("/recent")
     public ResponseEntity<Map<String, Object>> getRecentActivities() {
         try {
@@ -227,9 +213,7 @@ public class ActivityLogController {
         }
     }
     
-    /**
-     * Generate summary report for a bid
-     */
+    
     @GetMapping("/report/bid/{bidId}")
     public ResponseEntity<Map<String, Object>> getBidSummaryReport(@PathVariable Long bidId) {
         try {
@@ -249,9 +233,7 @@ public class ActivityLogController {
         }
     }
     
-    /**
-     * Generate summary report for a tender
-     */
+   
     @GetMapping("/report/tender/{tenderId}")
     public ResponseEntity<Map<String, Object>> getTenderSummaryReport(@PathVariable Long tenderId) {
         try {
@@ -271,10 +253,7 @@ public class ActivityLogController {
         }
     }
     
-    /**
-     * Log validation summary for a bid - combines found, missing, duplicate in one row
-     * Updates existing entry if bid already has validation
-     */
+    
     @PostMapping("/validation-summary")
     public ResponseEntity<Map<String, Object>> logValidationSummary(
             @RequestParam String username,

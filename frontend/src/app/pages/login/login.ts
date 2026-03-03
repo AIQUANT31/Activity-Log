@@ -37,7 +37,7 @@ export class Login {
             if (response.user && response.user.id) {
               localStorage.setItem('userId', response.user.id.toString());
             }
-            this.router.navigate(['/dashboard']); // Redirect to dashboard page after login
+            this.router.navigate(['/dashboard']); 
           } else {
             alert(this.message);
           }

@@ -42,7 +42,7 @@ export class BidDocumentUploadComponent {
 
         if (file.size > 50 * 1024 * 1024) {
           this.uploadError = 'File size must be less than 50MB';
-          continue; // Skip oversized files instead of stopping
+          continue; 
         }
 
         // Add to selected files if not already added

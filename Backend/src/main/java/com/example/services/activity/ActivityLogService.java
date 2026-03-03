@@ -22,9 +22,6 @@ public class ActivityLogService {
     @Autowired
     private ActivityLogRepository activityLogRepository;
     
-    /**
-     * Log a manual change made by a user
-     */
     public ActivityLog logManualChange(String username, String action, String description,
                                        String entityType, Long entityId,
                                        String oldValue, String newValue) {
@@ -37,9 +34,7 @@ public class ActivityLogService {
         return saved;
     }
     
-    /**
-     * Log validation summary for a bid - combines found, missing, duplicate in one row
-     */
+    
     public ActivityLog logValidationSummary(String username, Long bidId, 
                                           int foundCount, int missingCount, int duplicateCount,
                                           List<String> foundDocs, List<String> missingDocs, List<String> duplicateDocs) {
@@ -55,7 +50,7 @@ public class ActivityLogService {
         String missingDocsStr = missingDocs != null ? String.join(", ", missingDocs) : "";
         String duplicateDocsStr = duplicateDocs != null ? String.join(", ", duplicateDocs) : "";
         
-        // Check for existing VALIDATION_SUMMARY entry
+        
         ActivityLog existing = null;
         int uploadNum = 1;
         
@@ -85,7 +80,7 @@ public class ActivityLogService {
             logger.info("Activity updated: {} - {} by {}", action, description, username);
             return saved;
         } else {
-            // First upload - create new entry
+          
             uploadNum = 1;
             description = String.format("Upload 1: Found=%d, Missing=%d, Duplicate=%d", 
                 foundCount, missingCount, duplicateCount);
@@ -106,9 +101,7 @@ public class ActivityLogService {
         }
     }
     
-    /**
-     * Log a document validation manual override
-     */
+    
     public ActivityLog logDocumentValidationOverride(String username, Long bidId, 
                                                      String documentName, boolean previousStatus, boolean newStatus) {
         String action = "MANUAL_VALIDATION_OVERRIDE";
@@ -121,9 +114,7 @@ public class ActivityLogService {
                              String.valueOf(previousStatus), String.valueOf(newStatus));
     }
     
-    /**
-     * Log a bid status manual change
-     */
+   
     public ActivityLog logBidStatusChange(String username, Long bidId, 
                                           String oldStatus, String newStatus) {
         String action = "BID_STATUS_CHANGE";
@@ -131,10 +122,7 @@ public class ActivityLogService {
         
         return logManualChange(username, action, description, "BID", bidId, oldStatus, newStatus);
     }
-    
-    /**
-     * Log tender document requirement changes
-     */
+   
     public ActivityLog logTenderDocumentChange(String username, Long tenderId,
                                                String documentName, String oldRequirement, String newRequirement) {
         String action = "TENDER_DOCUMENT_REQUIREMENT_CHANGE";
@@ -144,9 +132,7 @@ public class ActivityLogService {
         return logManualChange(username, action, description, "TENDER", tenderId, oldRequirement, newRequirement);
     }
     
-    /**
-     * Log manual document acceptance (overriding validation)
-     */
+    
     public ActivityLog logManualDocumentAcceptance(String username, Long bidId, String documentName, String reason) {
         String action = "MANUAL_DOCUMENT_ACCEPTANCE";
         String description = String.format("Manually accepted document '%s'. Reason: %s", documentName, reason);
@@ -154,9 +140,7 @@ public class ActivityLogService {
         return logManualChange(username, action, description, "BID_DOCUMENT", bidId, "REJECTED", "ACCEPTED");
     }
     
-    /**
-     * Log manual document rejection (overriding validation)
-     */
+    
     public ActivityLog logManualDocumentRejection(String username, Long bidId, String documentName, String reason) {
         String action = "MANUAL_DOCUMENT_REJECTION";
         String description = String.format("Manually rejected document '%s'. Reason: %s", documentName, reason);
@@ -164,54 +148,39 @@ public class ActivityLogService {
         return logManualChange(username, action, description, "BID_DOCUMENT", bidId, "ACCEPTED", "REJECTED");
     }
     
-    /**
-     * Get activity logs for a user
-     */
+   
     public List<ActivityLog> getUserActivityLogs(String username) {
         return activityLogRepository.findByUsernameOrderByTimestampDesc(username);
     }
     
-    /**
-     * Get paginated activity logs for a user
-     */
+   
     public Page<ActivityLog> getUserActivityLogs(String username, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "timestamp"));
         return activityLogRepository.findByUsernameOrderByTimestampDesc(username, pageable);
     }
     
-    /**
-     * Get activity logs for a specific entity
-     */
+   
     public List<ActivityLog> getEntityActivityLogs(String entityType, Long entityId) {
         return activityLogRepository.findByEntityIdOrderByTimestampDesc(entityId);
     }
     
-    /**
-     * Get activity logs by date range
-     */
+   
     public List<ActivityLog> getActivityLogsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
         return activityLogRepository.findByDateRange(startDate, endDate);
     }
     
-    /**
-     * Get recent activity logs (last 20)
-     */
+    
     public List<ActivityLog> getRecentActivityLogs() {
         Pageable pageable = PageRequest.of(0, 20, Sort.by(Sort.Direction.DESC, "timestamp"));
         Page<ActivityLog> page = activityLogRepository.findAll(pageable);
         return page.getContent();
     }
     
-    /**
-     * Search activity logs by action
-     */
     public List<ActivityLog> searchByAction(String action) {
         return activityLogRepository.findByActionContainingIgnoreCaseOrderByTimestampDesc(action);
     }
     
-    /**
-     * Get activity count for a user
-     */
+    
     public long getUserActivityCount(String username) {
         return activityLogRepository.countByUsername(username);
     }

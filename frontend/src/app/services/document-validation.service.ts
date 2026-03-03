@@ -37,17 +37,13 @@ export class DocumentValidationService {
     'REGISTRATION': ['registration', 'license', 'permit']
   };
 
-  /**
-   * Validate document CONTENT using OCR - checks actual PDF text!
-   * This is the proper rule-based validation you requested
-   */
+ 
   validateDocumentContent(requiredDocuments: string[], files: File[]): Observable<ValidationResponse> {
     const formData = new FormData();
     
-    // Add required documents as comma-separated string
+  
     formData.append('requiredDocuments', requiredDocuments.join(','));
-    
-    // Add each file
+  
     for (const file of files) {
       formData.append('files', file);
     }
@@ -58,10 +54,6 @@ export class DocumentValidationService {
     );
   }
 
-  /**
-   * Validate with rules - combines filename and content validation
-   * Returns confidence scores
-   */
   validateWithRules(requiredDocuments: string[], files: File[]): Observable<ValidationResponse> {
     const formData = new FormData();
     formData.append('requiredDocuments', requiredDocuments.join(','));
@@ -78,9 +70,7 @@ export class DocumentValidationService {
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Validate documents using backend API
-   */
+
   validateDocuments(requiredDocuments: string[], uploadedFileNames: string[]): Observable<ValidationResponse> {
     const request = {
       requiredDocuments: requiredDocuments,
@@ -89,9 +79,7 @@ export class DocumentValidationService {
     return this.http.post<ValidationResponse>(`${this.apiUrl}/validate-documents`, request);
   }
 
-  /**
-   * Validate documents using fuzzy matching (more lenient)
-   */
+  
   validateDocumentsFuzzy(requiredDocuments: string[], uploadedFileNames: string[]): Observable<ValidationResponse> {
     const request = {
       requiredDocuments: requiredDocuments,
@@ -100,10 +88,7 @@ export class DocumentValidationService {
     return this.http.post<ValidationResponse>(`${this.apiUrl}/validate-documents-fuzzy`, request);
   }
 
-  /**
-   * Client-side validation using keyword matching
-   * This provides immediate feedback without API call
-   */
+
   validateDocumentsClientSide(requiredDocuments: string[], uploadedFileNames: string[]): ValidationResponse {
     const response: ValidationResponse = {
       valid: true,
@@ -161,9 +146,7 @@ export class DocumentValidationService {
     return response;
   }
 
-  /**
-   * Check if an uploaded file matches a required document type
-   */
+  
   private matchesRequiredDocument(requiredDoc: string, fileName: string): boolean {
     // Direct match
     if (fileName.includes(requiredDoc)) {
@@ -179,7 +162,6 @@ export class DocumentValidationService {
       }
     }
 
-    // Check individual words from required doc
     const words = requiredDoc.split(/[\s,_-]+/);
     for (const word of words) {
       if (word.length > 3 && fileName.includes(word)) {
@@ -190,16 +172,11 @@ export class DocumentValidationService {
     return false;
   }
 
-  /**
-   * Get supported document types
-   */
   getSupportedDocumentTypes(): string[] {
     return Object.keys(this.documentKeywords);
   }
 
-  /**
-   * Get keywords for a specific document type
-   */
+ 
   getKeywordsForDocumentType(documentType: string): string[] {
     return this.documentKeywords[documentType.toUpperCase()] || [];
   }

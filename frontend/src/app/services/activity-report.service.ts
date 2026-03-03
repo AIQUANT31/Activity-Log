@@ -94,9 +94,7 @@ export class ActivityReportService {
     return this.http.post<ActivityResponse>(`${this.apiUrl}/document-override`, null, { params });
   }
 
-  /**
-   * Log manual document acceptance
-   */
+  
   logDocumentAcceptance(username: string, bidId: number, documentName: string,
                         reason: string): Observable<ActivityResponse> {
     const params = new HttpParams()
@@ -108,9 +106,7 @@ export class ActivityReportService {
     return this.http.post<ActivityResponse>(`${this.apiUrl}/document-accept`, null, { params });
   }
 
-  /**
-   * Log manual document rejection
-   */
+ 
   logDocumentRejection(username: string, bidId: number, documentName: string,
                        reason: string): Observable<ActivityResponse> {
     const params = new HttpParams()
@@ -122,9 +118,7 @@ export class ActivityReportService {
     return this.http.post<ActivityResponse>(`${this.apiUrl}/document-reject`, null, { params });
   }
 
-  /**
-   * Get user activity logs
-   */
+  
   getUserActivityLogs(username: string, page: number = 0, size: number = 20): Observable<ActivityResponse> {
     const params = new HttpParams()
       .set('page', page.toString())
@@ -133,38 +127,26 @@ export class ActivityReportService {
     return this.http.get<ActivityResponse>(`${this.apiUrl}/user/${username}`, { params });
   }
 
-  /**
-   * Get activity logs for a specific entity
-   */
+  
   getEntityActivityLogs(entityType: string, entityId: number): Observable<ActivityResponse> {
     return this.http.get<ActivityResponse>(`${this.apiUrl}/entity/${entityType}/${entityId}`);
   }
 
-  /**
-   * Get recent activity logs
-   */
+
   getRecentActivities(): Observable<ActivityResponse> {
     return this.http.get<ActivityResponse>(`${this.apiUrl}/recent`);
   }
 
-  /**
-   * Generate summary report for a bid
-   */
   getBidSummaryReport(bidId: number): Observable<ReportResponse> {
     return this.http.get<ReportResponse>(`${this.apiUrl}/report/bid/${bidId}`);
   }
 
-  /**
-   * Generate summary report for a tender
-   */
+  
   getTenderSummaryReport(tenderId: number): Observable<ReportResponse> {
     return this.http.get<ReportResponse>(`${this.apiUrl}/report/tender/${tenderId}`);
   }
 
-  /**
-   * Log validation summary for a bid - combines found, missing, duplicate in one row
-   * Updates existing entry if bid already has validation
-   */
+ 
   logValidationSummary(username: string, bidId: number, foundCount: number, 
                       missingCount: number, duplicateCount: number,
                       foundDocs: string[] = [], missingDocs: string[] = [], duplicateDocs: string[] = []): Observable<ActivityResponse> {

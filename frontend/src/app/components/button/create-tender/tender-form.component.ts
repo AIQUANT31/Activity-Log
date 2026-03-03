@@ -50,7 +50,7 @@ export class TenderFormComponent implements OnChanges {
     'GST Registration',
     'Income Tax Clearance',
     'Company Registration',
-    'Experience Certificates',
+    // 'Experience Certificates',
     'Insurance Certificate'
   ];
 
@@ -125,7 +125,7 @@ export class TenderFormComponent implements OnChanges {
     console.log('Form data:', this.formData);
     console.log('Selected category:', this.selectedCategory);
     if (this.isValidForm()) {
-      // Sync selectedCategory to formData.category before submitting
+     
       this.formData.category = this.selectedCategory;
       
       // Convert requiredDocuments array to comma-separated string
@@ -183,7 +183,7 @@ export class TenderFormComponent implements OnChanges {
     this.formData.requiredDocuments.splice(index, 1);
   }
 
-  // Get status preview based on deadline date
+  
   getDeadlineStatus(): string {
     if (!this.formData.deadline) {
       return 'OPEN';
@@ -191,7 +191,7 @@ export class TenderFormComponent implements OnChanges {
     
     console.log('getDeadlineStatus called with deadline:', this.formData.deadline);
     
-    // Parse the deadline date
+  
     const deadlineStr = this.formData.deadline;
     const deadlineDate = new Date(deadlineStr);
     
